@@ -4,4 +4,6 @@ export default DS.Model.extend({
 
 	filename: DS.attr('string'),
 
+	
+
 });
