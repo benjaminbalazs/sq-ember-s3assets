@@ -1,9 +1,7 @@
-import DS from 'ember-data';
+import File from './file';
 
-export default DS.Model.extend({
+export default File.extend({
 
-	filename: DS.attr('string'),
-	
 	sizes: DS.attr('number'),
 
 	width: DS.attr('number'),
