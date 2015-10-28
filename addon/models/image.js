@@ -1,4 +1,5 @@
 import File from './file';
+import DS from 'ember-data';
 
 export default File.extend({
 
