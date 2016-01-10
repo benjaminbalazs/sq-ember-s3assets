@@ -15,7 +15,14 @@ export default DS.Model.extend({
 
 	baseURL: Ember.computed(function() {
 		var config = this.container.lookupFactory('config:environment');
-		return 'http://'+config.APP.s3region + '.amazonaws.com/' + config.APP.s3bucket + '/';
+		return 'http://s3-'+config.S3.region + '.amazonaws.com/' + config.S3.bucket + '/';
+	}),
+
+	//
+
+	extension : Ember.computed('filename', function() {
+		var array = this.get('filename').split('.');
+		return array[array.length-1];
 	}),
 
 });
