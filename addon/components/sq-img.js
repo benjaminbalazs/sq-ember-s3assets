@@ -17,16 +17,30 @@ export default Ember.Component.extend({
 
 		if ( this.get('default') !== null && this.get('model.id') ) {
 
-			if ( this.getMaxSize() < this.get('default') ) {
+			if ( this.get('model.isLoaded') === true ) {
 
-				this.set('default', null);
+				this.setupDefault();
 
 			} else {
+				//console.log(this.get('model'));
+				//this.get('model').on('didLoad', this, this.setupDefault);
 
-				this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
+				//this.get('model').addObserver('isLoaded', this, function() {
+				//	console.log('loaded');
+				//});
 
 			}
 
+		}
+
+	},
+
+	setupDefault() {
+
+		if ( this.getMaxSize() < this.get('default') ) {
+			this.set('default', null);
+		} else {
+			this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
 		}
 
 	},
@@ -47,7 +61,7 @@ export default Ember.Component.extend({
 
 	update() {
 
-		if ( !this.get('model.id') ) {
+		if ( this.get('model.isLoaded') === false ) {
 			return;
 		}
 
