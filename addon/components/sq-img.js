@@ -2,9 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-	tagName: 'img',
+	tagName: '',
+	alt: '',
 
-	attributeBindings: ['src'],
+	//
 
 	widthSizes: [160, 320, 480, 640, 960, 1280, 1920, 2560],
 
@@ -45,7 +46,7 @@ export default Ember.Component.extend({
 	//
 
 	update() {
-		
+
 		if ( !this.get('model.id') ) {
 			return;
 		}
