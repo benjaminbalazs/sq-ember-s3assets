@@ -15,6 +15,18 @@ export default Ember.Component.extend({
 
 		this._super();
 
+		this.initiate();
+
+		this.addObserver('model', this, function() {
+
+			this.initiate();
+
+		});
+
+	},
+
+	initiate() {
+
 		if ( this.get('default') !== null && this.get('model.id') ) {
 
 			if ( this.get('model.isLoaded') === true ) {
@@ -22,18 +34,15 @@ export default Ember.Component.extend({
 				this.setupDefault();
 
 			} else {
-				//console.log(this.get('model'));
-				//this.get('model').on('didLoad', this, this.setupDefault);
 
-				//this.get('model').addObserver('isLoaded', this, function() {
-				//	console.log('loaded');
-				//});
 
 			}
 
 		}
 
 	},
+
+	//
 
 	setupDefault() {
 
