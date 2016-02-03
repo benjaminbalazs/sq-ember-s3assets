@@ -25,6 +25,14 @@ export default Ember.Component.extend({
 
 	},
 
+	actions: {
+
+		click() {
+			this.sendAction('click');
+		},
+
+	},
+
 	initiate() {
 
 		if ( this.get('default') !== null && this.get('model.id') ) {
