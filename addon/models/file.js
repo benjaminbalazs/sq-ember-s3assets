@@ -15,7 +15,6 @@ export default DS.Model.extend({
 
 	baseURL: Ember.computed(function() {
 		var config = this.container.lookupFactory('config:environment');
-		console.log(config.APP.protocol);
 		return config.APP.protocol + 's3-'+config.S3.region + '.amazonaws.com/' + config.S3.bucket + '/';
 	}),
 
