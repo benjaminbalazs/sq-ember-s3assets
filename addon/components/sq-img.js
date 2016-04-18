@@ -2,8 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-	tagName: '',
+	tagName: 'img',
 	alt: '',
+	classNames: 'sq-img',
+	attributeBindings: 'src',
 
 	//
 
