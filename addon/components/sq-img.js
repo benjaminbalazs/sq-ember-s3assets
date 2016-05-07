@@ -19,19 +19,15 @@ export default Ember.Component.extend({
 
 		this.initiate();
 
-		this.addObserver('model', this, function() {
-
-			this.initiate();
-
-		});
+		this.addObserver('model', this, this.initiate);
 
 	},
 
-	actions: {
+	willDestroy() {
 
-		click() {
-			this.sendAction('click');
-		},
+		this._super();
+
+		this.removeObserver('model', this, this.initiate);
 
 	},
 
@@ -50,6 +46,12 @@ export default Ember.Component.extend({
 
 		}
 
+	},
+
+	click() {
+		if ( this ) {
+			this.sendAction('select');
+		}
 	},
 
 	//
