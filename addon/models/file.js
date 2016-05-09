@@ -6,6 +6,8 @@ export default Model.extend({
 
 	filename: attr('string'),
 
+	originalname: attr('string'),
+
 	//
 
 	src: Ember.computed('filename', function() {
