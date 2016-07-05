@@ -95,7 +95,7 @@ export default Ember.Component.extend({
 
 	getFilename(width) {
 
-		if ( width === 0 ) {
+		if ( width < 160 ) {
 
 			return this.get('model.src');
 
