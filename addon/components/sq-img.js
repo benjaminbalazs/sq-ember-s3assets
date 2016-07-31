@@ -95,7 +95,11 @@ export default Ember.Component.extend({
 
 	getFilename(width) {
 
-		if ( width < 160 ) {
+		if ( this.isStatic() ) {
+
+			return this.get('model.src');
+
+		} else if ( width < 160 ) {
 
 			return this.get('model.src');
 
@@ -156,6 +160,14 @@ export default Ember.Component.extend({
 
 		return this.widthSizes[this.get('model.sizes')-1];
 
+	},
+
+	isStatic() {
+		if ( this.get('model.sizes') ) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 
