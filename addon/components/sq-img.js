@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 	tagName: 'img',
 	alt: '',
 	classNames: 'sq-img',
-	attributeBindings: ['src', 'filter', 'linked'],
+	attributeBindings: ['src', 'filter', 'linked', 'alt'],
 
 	//
 
