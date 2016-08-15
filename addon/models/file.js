@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
+import BaseURL from './../mixins/baseurl';
 
-export default Model.extend({
+export default Model.extend(BaseURL,{
 
 	filename: attr('string'),
 
@@ -12,13 +13,6 @@ export default Model.extend({
 
 	src: Ember.computed('filename', function() {
 		return this.get('baseURL') + this.get('filename');
-	}),
-
-	//
-
-	baseURL: Ember.computed(function() {
-		var config = Ember.getOwner(this)._lookupFactory('config:environment');
-		return config.APP.protocol + 's3-'+config.S3.region + '.amazonaws.com/' + config.S3.bucket + '/';
 	}),
 
 	//
