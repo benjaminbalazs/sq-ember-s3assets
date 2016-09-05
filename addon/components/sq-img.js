@@ -41,10 +41,26 @@ export default Ember.Component.extend({
 
 			} else {
 
+				var self = this;
+				this.get('model').addObserver('isLoaded', this, function() {
+
+					Ember.run.later(function() {
+						self.didLoad();
+					});
+
+				});
 
 			}
 
 		}
+
+	},
+
+	didLoad() {
+
+		this.get('model').removeObserver('isLoaded', this, this.didLoad);
+
+		this.setupDefault();
 
 	},
 
