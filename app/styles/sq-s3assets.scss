@@ -1,5 +1,30 @@
-.sq-img {
+.sq-img[mask] {
+    object-fit:cover;
+    transition: all 0.2s ease-in-out;
+}
 
+.sq-img[mask='rectangle'] {
+}
 
+.sq-img[mask='square'] {
+}
 
+.sq-img[mask='circle'] {
+    clip-path: circle(50% at 50% 50%);
+}
+
+.sq-img[mask='triangle'] {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.sq-img[mask='rhombus'] {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.sq-img[mask='hexagon'] {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.sq-img[mask='star'] {
+    clip-path: polygon(50% 0%, 61% 38.5%, 98% 38.5%, 68% 58%, 79% 100%, 50% 70%, 21% 100%, 32% 58%, 2% 38.5%, 39% 38.5%);
 }

@@ -3,9 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
 	tagName: 'img',
-	alt: '',
+	alt: null,
 	classNames: 'sq-img',
-	attributeBindings: ['src', 'filter', 'linked', 'alt'],
+	attributeBindings: ['src', 'filter', 'mask', 'linked', 'alt'],
+	height: 'auto',
 
 	//
 
@@ -80,7 +81,46 @@ export default Ember.Component.extend({
 			this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
 		}
 
+		this.proportioner();
+
 	},
+
+	proportioner: Ember.observer('mask', 'src', function() {
+
+		var mask = this.get('mask');
+
+		if ( mask ) {
+
+			if ( this.get('element') ) {
+
+				var proportion = 1;
+
+				if ( mask === 'rectangle' ) {
+					proportion = 3/4;
+				} else if ( mask === 'landscape' ) {
+					proportion = 9/16;
+				} else if ( mask === 'triangle' ) {
+					proportion = 80/115;
+				} else if ( mask === 'vertical' ) {
+					proportion = 4/3;
+				}
+
+				var width = Ember.$(this.get('element')).width();
+				var height = Math.round(width * proportion);
+				
+				Ember.$(this.get('element')).height(height);
+
+			} else {
+
+				Ember.$(this.get('element')).height('auto');
+			}
+
+		} else {
+
+			Ember.$(this.get('element')).height('auto');
+		}
+
+	}),
 
 	// CALCULATE SIZE ONCE IT IS INSERTED --------------------------------------
 
@@ -91,6 +131,8 @@ export default Ember.Component.extend({
 		if ( !this.get('default') ) {
 			Ember.run.later(this, this.update);
 		}
+
+		this.proportioner();
 
 	},
 
