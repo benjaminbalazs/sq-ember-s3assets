@@ -107,17 +107,17 @@ export default Ember.Component.extend({
 
 				var width = Ember.$(this.get('element')).width();
 				var height = Math.round(width * proportion);
-				
-				Ember.$(this.get('element')).height(height);
+
+				Ember.$(this.get('element')).attr( "height", height);
 
 			} else {
 
-				Ember.$(this.get('element')).height('auto');
+				Ember.$(this.get('element')).attr( "height", 'auto');
 			}
 
 		} else {
 
-			Ember.$(this.get('element')).height('auto');
+			Ember.$(this.get('element')).attr( "height", 'auto');
 		}
 
 	}),
