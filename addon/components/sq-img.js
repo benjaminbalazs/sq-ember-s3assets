@@ -90,16 +90,13 @@ export default Ember.Component.extend({
 		var mask = this.get('mask');
 		var self = this;
 
-		var res = function() {
-			console.log('fires');
-			self.resize();
-		};
-
 		if ( mask && this.get('element') ) {
 
 			this.resize();
 
-			Ember.$(this.get('element')).mutate('width', res);
+			Ember.$(this.get('element')).mutate('width', function() {
+				self.resize();
+			});
 
 		} else {
 
