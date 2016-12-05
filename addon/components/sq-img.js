@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 	tagName: 'img',
 	alt: null,
 	classNames: 'sq-img',
-	attributeBindings: ['src', 'filter', 'mask', 'linked', 'alt'],
+	attributeBindings: ['src', 'filter', 'mask', 'link', 'alt'],
 	height: 'auto',
 
 	//
@@ -88,39 +88,57 @@ export default Ember.Component.extend({
 	proportioner: Ember.observer('mask', 'src', function() {
 
 		var mask = this.get('mask');
+		var self = this;
+
+		var res = function() {
+			console.log('fires');
+			self.resize();
+		};
+
+		if ( mask && this.get('element') ) {
+
+			this.resize();
+
+			Ember.$(this.get('element')).mutate('width', res);
+
+		} else {
+
+			this.resize();
+
+		}
+
+	}),
+
+	resize() {
+
+		var mask = this.get('mask');
 
 		if ( mask ) {
 
-			if ( this.get('element') ) {
+			var proportion = 1;
 
-				var proportion = 1;
-
-				if ( mask === 'rectangle' ) {
-					proportion = 3/4;
-				} else if ( mask === 'landscape' ) {
-					proportion = 9/16;
-				} else if ( mask === 'triangle' ) {
-					proportion = 80/115;
-				} else if ( mask === 'vertical' ) {
-					proportion = 4/3;
-				}
-
-				var width = Ember.$(this.get('element')).width();
-				var height = Math.round(width * proportion);
-
-				Ember.$(this.get('element')).attr( "height", height);
-
-			} else {
-
-				Ember.$(this.get('element')).attr( "height", 'auto');
+			if ( mask === 'rectangle' ) {
+				proportion = 3/4;
+			} else if ( mask === 'landscape' ) {
+				proportion = 9/16;
+			} else if ( mask === 'triangle' ) {
+				proportion = 80/115;
+			} else if ( mask === 'vertical' ) {
+				proportion = 4/3;
 			}
+
+			var width = Ember.$(this.get('element')).width();
+			var height = Math.round(width * proportion);
+
+			Ember.$(this.get('element')).attr( "height", height);
 
 		} else {
 
 			Ember.$(this.get('element')).attr( "height", 'auto');
+
 		}
 
-	}),
+	},
 
 	// CALCULATE SIZE ONCE IT IS INSERTED --------------------------------------
 
