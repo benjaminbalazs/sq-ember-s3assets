@@ -22,6 +22,12 @@ export default Ember.Component.extend({
 
 		this.addObserver('model', this, this.initiate);
 
+		if ( this.get('preview') ) {
+
+			this.set('src', this.get('preview'));
+
+		}
+
 	},
 
 	willDestroy() {
