@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+	fastboot: Ember.inject.service(),
+
 	tagName: 'img',
 	alt: null,
 	classNames: 'sq-img',
@@ -87,7 +89,9 @@ export default Ember.Component.extend({
 			this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
 		}
 
-		this.proportioner();
+		if ( this.get('fastboot.isFastBoot') !== true ) {
+			this.proportioner();
+		}
 
 	},
 
@@ -161,7 +165,7 @@ export default Ember.Component.extend({
 
 	update() {
 
-		if ( this.get('model.isLoaded') === false ) {
+		if ( this.get('model.isLoaded') === false || this.get('fastboot.isFastBoot') === true ) {
 			return;
 		}
 
@@ -186,7 +190,7 @@ export default Ember.Component.extend({
 
 			var extension = this.get('model.extension');
 			var baseURL = this.get('model.baseURL');
-
+			
 			return baseURL + this.get('model.id') + '_' + width + '.' + extension;
 
 		}
@@ -242,6 +246,7 @@ export default Ember.Component.extend({
 	},
 
 	isStatic() {
+
 		if ( this.get('model.sizes') ) {
 			return false;
 		} else {
