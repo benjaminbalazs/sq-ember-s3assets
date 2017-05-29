@@ -89,28 +89,30 @@ export default Ember.Component.extend({
 			this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
 		}
 
-		if ( this.get('fastboot.isFastBoot') !== true ) {
-			this.proportioner();
-		}
+		this.proportioner();
 
 	},
 
 	proportioner: Ember.observer('mask', 'src', function() {
 
-		var mask = this.get('mask');
-		var self = this;
+		if ( this.get('fastboot.isFastBoot') !== true ) {
 
-		if ( mask && this.get('element') ) {
+			var mask = this.get('mask');
+			var self = this;
 
-			this.resize();
+			if ( mask && this.get('element') ) {
 
-			Ember.$(this.get('element')).mutate('width', function() {
-				self.resize();
-			});
+				this.resize();
 
-		} else {
+				Ember.$(this.get('element')).mutate('width', function() {
+					self.resize();
+				});
 
-			this.resize();
+			} else {
+
+				this.resize();
+
+			}
 
 		}
 
@@ -118,30 +120,34 @@ export default Ember.Component.extend({
 
 	resize() {
 
-		var mask = this.get('mask');
+		if ( this.get('fastboot.isFastBoot') !== true ) {
 
-		if ( mask ) {
+			var mask = this.get('mask');
 
-			var proportion = 1;
+			if ( mask ) {
 
-			if ( mask === 'rectangle' ) {
-				proportion = 3/4;
-			} else if ( mask === 'landscape' ) {
-				proportion = 9/16;
-			} else if ( mask === 'triangle' ) {
-				proportion = 80/115;
-			} else if ( mask === 'vertical' ) {
-				proportion = 4/3;
+				var proportion = 1;
+
+				if ( mask === 'rectangle' ) {
+					proportion = 3/4;
+				} else if ( mask === 'landscape' ) {
+					proportion = 9/16;
+				} else if ( mask === 'triangle' ) {
+					proportion = 80/115;
+				} else if ( mask === 'vertical' ) {
+					proportion = 4/3;
+				}
+
+				var width = Ember.$(this.get('element')).width();
+				var height = Math.round(width * proportion);
+
+				Ember.$(this.get('element')).attr( "height", height);
+
+			} else {
+
+				Ember.$(this.get('element')).attr( "height", 'auto');
+
 			}
-
-			var width = Ember.$(this.get('element')).width();
-			var height = Math.round(width * proportion);
-
-			Ember.$(this.get('element')).attr( "height", height);
-
-		} else {
-
-			Ember.$(this.get('element')).attr( "height", 'auto');
 
 		}
 
@@ -190,7 +196,7 @@ export default Ember.Component.extend({
 
 			var extension = this.get('model.extension');
 			var baseURL = this.get('model.baseURL');
-			
+
 			return baseURL + this.get('model.id') + '_' + width + '.' + extension;
 
 		}
