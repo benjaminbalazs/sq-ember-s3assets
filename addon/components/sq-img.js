@@ -104,7 +104,7 @@ export default Ember.Component.extend({
 
 				this.resize();
 
-				Ember.$(this.get('element')).mutate('width', function() {
+				Ember.$(this.get('element')).resize(function() {
 					self.resize();
 				});
 
