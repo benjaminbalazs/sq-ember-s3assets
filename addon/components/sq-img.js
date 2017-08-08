@@ -160,7 +160,10 @@ export default Ember.Component.extend({
 		this._super();
 
 		if ( !this.get('default') ) {
-			Ember.run.later(this, this.update);
+			var self = this;
+			Ember.run.later(function() {
+				self.update();
+			});
 		}
 
 		this.proportioner();
@@ -175,8 +178,10 @@ export default Ember.Component.extend({
 			return;
 		}
 
-		var width = this.getSuggestedSize();
-		this.set('src', this.getFilename(width));
+		if ( this.get('isDestroyed') === false && this.$() ) {
+			var width = this.getSuggestedSize();
+			this.set('src', this.getFilename(width));
+		}
 
 	},
 
