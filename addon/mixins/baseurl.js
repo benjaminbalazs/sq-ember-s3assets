@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
 
     baseURL: Ember.computed(function() {
 
-		return this.get('location.protocol') + 's3-'+config.S3.region + '.amazonaws.com/' + config.S3.bucket + '/';
+		return '://s3-'+config.S3.region + '.amazonaws.com/' + config.S3.bucket + '/';
 
 	}),
 
