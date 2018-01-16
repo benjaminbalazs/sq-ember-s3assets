@@ -1,5 +1,5 @@
 .sq-img[mask] {
-    object-fit:cover;
+    object-fit: cover;
     transition: all 0.2s ease-in-out;
 }
 
@@ -27,4 +27,13 @@
 
 .sq-img[mask='star'] {
     clip-path: polygon(50% 0%, 61% 38.5%, 98% 38.5%, 68% 58%, 79% 100%, 50% 70%, 21% 100%, 32% 58%, 2% 38.5%, 39% 38.5%);
+}
+
+.sq-img[fade] {
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.sq-img[fade].show {
+    opacity: 1;
 }

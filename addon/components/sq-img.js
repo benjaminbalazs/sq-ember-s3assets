@@ -7,8 +7,10 @@ export default Ember.Component.extend({
 	tagName: 'img',
 	alt: null,
 	classNames: 'sq-img',
-	attributeBindings: ['src', 'filter', 'mask', 'link', 'alt'],
+	attributeBindings: ['src', 'filter', 'mask', 'link', 'alt', 'fade'],
+	classNameBindings: ['show'],
 	height: 'auto',
+	fade: false,
 
 	//
 
@@ -159,14 +161,40 @@ export default Ember.Component.extend({
 
 		this._super();
 
+		var self = this;
+
 		if ( !this.get('default') ) {
-			var self = this;
 			Ember.run.later(function() {
 				self.update();
 			});
 		}
 
 		this.proportioner();
+
+		//
+
+		if ( this.get('fade') === true ) {
+
+			Ember.$(this.get('element')).one('load', function() {
+				self.onLoad();
+			});
+
+		}
+
+
+	},
+
+	willDestroyElement() {
+
+		if ( this.get('fade') === true ) {
+			Ember.$(this.get('element')).off('load');
+		}
+
+	},
+
+	onLoad() {
+
+		this.set('show', true);
 
 	},
 
