@@ -227,10 +227,17 @@ export default Ember.Component.extend({
 
 		} else {
 
-			var extension = this.get('model.extension');
 			var baseURL = this.get('model.baseURL');
 
-			return baseURL + this.get('model.id') + '_' + width + '.' + extension;
+			if ( this.get('model.category') === 'image' ) {
+
+				return baseURL + this.get('model.id') + '_' + width + '.' + this.get('model.extension');
+
+			} else {
+
+				return baseURL + width + '/' + this.get('model.src');
+
+			}
 
 		}
 
