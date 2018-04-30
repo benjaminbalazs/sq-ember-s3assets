@@ -7,73 +7,14 @@ export default Ember.Component.extend({
 	tagName: 'img',
 	alt: null,
 	classNames: 'sq-img',
-	attributeBindings: ['src', 'filter', 'mask', 'link', 'alt', 'fade'],
-	classNameBindings: ['show'],
+	attributeBindings: ['src', 'srcset', 'sizes', 'filter', 'mask', 'link', 'alt', 'fade'],
+	classNameBindings: ['loaded'],
 	height: 'auto',
 	fade: false,
-
-	//
+	sizes: "100vw",
+	loaded: false,
 
 	widthSizes: [160, 320, 480, 640, 960, 1280, 1920, 2560],
-
-	// INIT --------------------------------------------------------------------
-
-	init() {
-
-		this._super();
-
-		this.initiate();
-
-		this.addObserver('model', this, this.initiate);
-
-		if ( this.get('preview') ) {
-
-			this.set('src', this.get('preview'));
-
-		}
-
-	},
-
-	willDestroy() {
-
-		this._super();
-
-		this.removeObserver('model', this, this.initiate);
-
-	},
-
-	initiate() {
-
-		if ( this.get('default') !== null && this.get('model.id') ) {
-
-			if ( this.get('model.isLoaded') === true ) {
-
-				this.setupDefault();
-
-			} else {
-
-				var self = this;
-				this.get('model').addObserver('isLoaded', this, function() {
-
-					Ember.run.later(function() {
-						self.didLoad();
-					});
-
-				});
-
-			}
-
-		}
-
-	},
-
-	didLoad() {
-
-		this.get('model').removeObserver('isLoaded', this, this.didLoad);
-
-		this.setupDefault();
-
-	},
 
 	click() {
 		if ( this ) {
@@ -81,19 +22,35 @@ export default Ember.Component.extend({
 		}
 	},
 
-	//
+	didInsertElement() {
 
-	setupDefault() {
+		const self = this;
 
-		if ( this.getMaxSize() < this.get('default') ) {
-			this.set('default', null);
-		} else {
-			this.set('src', this.getFilename(this.getPixelatedSize(this.get('default'))));
-		}
+		this.$().on('load', function(event) {
 
-		this.proportioner();
+			if ( self.get('loaded') === false ) {
+				self.set('loaded', true);
+				self.sendAction('onload', event);
+			}
+
+		});
+
+		this.$().on('error', function(event) {
+
+			self.sendAction('onerror', event);
+
+		});
 
 	},
+
+	willDestroyElement() {
+
+		this.$().off('load');
+		this.$().off('onerror');
+
+	},
+
+	//
 
 	proportioner: Ember.observer('mask', 'src', function() {
 
@@ -155,150 +112,55 @@ export default Ember.Component.extend({
 
 	},
 
-	// CALCULATE SIZE ONCE IT IS INSERTED --------------------------------------
+	src: Ember.computed('model.baseURL', 'model.src', function() {
 
-	didInsertElement() {
-
-		this._super();
-
-		var self = this;
-
-		if ( !this.get('default') ) {
-			Ember.run.later(function() {
-				self.update();
-			});
+		if ( this.get('model.preview') ) {
+			return this.get('model.preview');
+		} else {
+			return this.get('model.original');
 		}
 
-		this.proportioner();
+	}),
 
-		//
+	srcset: Ember.computed('model.sizes', function() {
 
-		if ( this.get('fade') === true ) {
+		if ( this.get('model.sizes') ) {
 
-			Ember.$(this.get('element')).one('load', function() {
-				self.onLoad();
-			});
+			let array = [];
+
+			for ( var i=0; i < this.get('model.sizes'); i += 1 ) {
+
+				var size = this.widthSizes[i];
+
+				let item = this.getFilename(size) + " " + size + "w";
+				array.push(item);
+
+			}
+
+			return array.join(", ");
+
+		} else {
+
+			return null;
 
 		}
 
-
-	},
-
-	willDestroyElement() {
-
-		if ( this.get('fade') === true ) {
-			Ember.$(this.get('element')).off('load');
-		}
-
-	},
-
-	onLoad() {
-
-		this.set('show', true);
-
-	},
-
-	//
-
-	update() {
-
-		if ( this.get('model.isLoaded') === false || this.get('fastboot.isFastBoot') === true ) {
-			return;
-		}
-
-		if ( this.get('isDestroyed') === false && this.$() ) {
-			var width = this.getSuggestedSize();
-			this.set('src', this.getFilename(width));
-		}
-
-	},
-
-	// GETTERS -----------------------------------------------------------------
+	}),
 
 	getFilename(width) {
 
-		if ( this.isStatic() ) {
+		var baseURL = this.get('model.baseURL');
 
-			return this.get('model.src');
+		if ( this.get('model.category') === 'image' ) {
 
-		} else if ( width < 160 ) {
-
-			return this.get('model.src');
+			return baseURL + this.get('model.id') + '_' + width + '.' + this.get('model.extension');
 
 		} else {
 
-			var baseURL = this.get('model.baseURL');
-
-			if ( this.get('model.category') === 'image' ) {
-
-				return baseURL + this.get('model.id') + '_' + width + '.' + this.get('model.extension');
-
-			} else {
-
-				return baseURL + width + '/' + this.get('model.src');
-
-			}
+			return baseURL + width + '/' + this.get('model.src');
 
 		}
 
 	},
-
-	getSuggestedSize() {
-
-		var width = this.$().innerWidth();
-
-		var size = 0;
-
-		for ( var i=0; i < this.get('model.sizes'); i += 1 ) {
-
-			var start = 0;
-			var end = this.widthSizes[i];
-
-			if ( width > start && width <= end ) {
-				size = end;
-				break;
-			}
-
-			start = end;
-
-		}
-
-		if ( size !== 0 ) {
-			return this.getPixelatedSize(size);
-		} else {
-			return size;
-		}
-
-	},
-
-	getPixelatedSize(size) {
-
-		var ratio = ( window.devicePixelRatio || 1 );
-
-		var targetedsize = size * ratio;
-
-		if ( targetedsize > this.getMaxSize() ) {
-			return 0;
-		} else {
-			return targetedsize;
-		}
-
-	},
-
-	getMaxSize() {
-
-		return this.widthSizes[this.get('model.sizes')-1];
-
-	},
-
-	isStatic() {
-
-		if ( this.get('model.sizes') ) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 
 });

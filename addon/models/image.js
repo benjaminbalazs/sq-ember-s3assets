@@ -9,4 +9,10 @@ export default File.extend({
 
 	height: attr('number'),
 
+	preview: attr('string'),
+
+	original: Ember.computed('src', function() {
+		return this.get('src');
+	}),
+
 });
