@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from 'ember-get-config';
 
 export default Ember.Component.extend({
 
@@ -112,7 +113,7 @@ export default Ember.Component.extend({
 
 	},
 
-	src: Ember.computed('model.baseURL', 'model.src', function() {
+	src: Ember.computed('model.src', function() {
 
 		if ( this.get('model.preview') ) {
 			return this.get('model.preview');
@@ -149,17 +150,20 @@ export default Ember.Component.extend({
 
 	getFilename(width) {
 
-		var baseURL = this.get('model.baseURL');
+		let imgix;
+		let src;
 
-		if ( this.get('model.category') === 'image' ) {
+		if ( this.get('model.category') === "image" ) {
 
-			return baseURL + this.get('model.id') + '_' + width + '.' + this.get('model.extension');
+			imgix = config.S3.imgix;
 
 		} else {
 
-			return baseURL + width + '/' + this.get('model.src');
+			imgix = config.S3STOCK.imgix;
 
 		}
+
+		return imgix + "/" + this.get('model.src') + "?w=" + width + "&auto=format,compress&fit=max";
 
 	},
 

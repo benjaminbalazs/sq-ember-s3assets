@@ -12,7 +12,7 @@ export default Model.extend(BaseURL,{
 	//
 
 	src: Ember.computed('filename', function() {
-		return this.get('baseURL') + this.get('filename');
+		return this.get('filename');
 	}),
 
 	//
@@ -20,6 +20,12 @@ export default Model.extend(BaseURL,{
 	extension : Ember.computed('filename', function() {
 		var array = this.get('filename').split('.');
 		return array[array.length-1];
+	}),
+
+	//
+
+	original: Ember.computed('src', 'cloudfront', function() {
+        return this.get('cloudfront') + '/' + this.get('src');
 	}),
 
 });

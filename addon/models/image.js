@@ -11,8 +11,8 @@ export default File.extend({
 
 	preview: attr('string'),
 
-	original: Ember.computed('src', function() {
-		return this.get('src');
+	original: Ember.computed('src', 'cloudfront', function() {
+        return this.get('cloudfront') + '/' + this.get('src');
 	}),
 
 });
