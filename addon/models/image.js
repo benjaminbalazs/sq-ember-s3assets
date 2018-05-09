@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import File from './file';
 import attr from 'ember-data/attr';
 
@@ -11,7 +12,7 @@ export default File.extend({
 
 	preview: attr('string'),
 
-	original: Ember.computed('src', 'cloudfront', function() {
+	original: computed('src', 'cloudfront', function() {
         return this.get('cloudfront') + '/' + this.get('src');
 	}),
 

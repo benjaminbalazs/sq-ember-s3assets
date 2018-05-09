@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { observer, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import config from 'ember-get-config';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-	fastboot: Ember.inject.service(),
+	fastboot: service(),
 
 	tagName: 'img',
 	alt: null,
@@ -53,7 +56,7 @@ export default Ember.Component.extend({
 
 	//
 
-	proportioner: Ember.observer('mask', 'src', function() {
+	proportioner: observer('mask', 'src', function() {
 
 		if ( this.get('fastboot.isFastBoot') !== true ) {
 
@@ -64,7 +67,7 @@ export default Ember.Component.extend({
 
 				this.resize();
 
-				Ember.$(this.get('element')).resize(function() {
+				$(this.get('element')).resize(function() {
 					self.resize();
 				});
 
@@ -98,14 +101,14 @@ export default Ember.Component.extend({
 					proportion = 4/3;
 				}
 
-				var width = Ember.$(this.get('element')).width();
+				var width = $(this.get('element')).width();
 				var height = Math.round(width * proportion);
 
-				Ember.$(this.get('element')).attr( "height", height);
+				$(this.get('element')).attr( "height", height);
 
 			} else {
 
-				Ember.$(this.get('element')).attr( "height", 'auto');
+				$(this.get('element')).attr( "height", 'auto');
 
 			}
 
@@ -113,7 +116,7 @@ export default Ember.Component.extend({
 
 	},
 
-	src: Ember.computed('model.src', function() {
+	src: computed('model.src', function() {
 
 		if ( this.get('model.preview') ) {
 			return this.get('model.preview');
@@ -123,7 +126,7 @@ export default Ember.Component.extend({
 
 	}),
 
-	srcset: Ember.computed('model.sizes', function() {
+	srcset: computed('model.sizes', function() {
 
 		if ( this.get('model.sizes') ) {
 

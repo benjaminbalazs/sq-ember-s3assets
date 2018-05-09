@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
 import config from 'ember-get-config';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
-    cloudfront: Ember.computed(function() {
+    cloudfront: computed(function() {
 
         return config.S3.cloudfront;
 
