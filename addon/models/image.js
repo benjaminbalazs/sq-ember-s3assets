@@ -11,6 +11,10 @@ export default File.extend({
 
 	height: attr('number'),
 
-	preview: attr('string')
+	preview: attr('string'),
+
+	original: computed('src', function() {
+        return config.S3.images.cloudfront + '/' + this.get('src');
+	}),
 
 });
