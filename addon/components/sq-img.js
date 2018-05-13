@@ -155,7 +155,7 @@ export default Component.extend({
 
 		let imgix;
 		let src;
-
+		
 		if ( this.get('model.category') === "image" ) {
 
 			imgix = config.S3.images.imgix;
