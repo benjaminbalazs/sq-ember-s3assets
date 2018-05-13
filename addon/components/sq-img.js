@@ -158,11 +158,11 @@ export default Component.extend({
 
 		if ( this.get('model.category') === "image" ) {
 
-			imgix = config.S3.imgix;
+			imgix = config.S3.images.imgix;
 
 		} else {
 
-			imgix = config.S3STOCK.imgix;
+			imgix = config.S3['stock-images'].imgix;
 
 		}
 

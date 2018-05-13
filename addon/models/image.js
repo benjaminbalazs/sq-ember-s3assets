@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import File from './file';
 import attr from 'ember-data/attr';
+import config from 'ember-get-config';
 
 export default File.extend({
 
@@ -10,10 +11,6 @@ export default File.extend({
 
 	height: attr('number'),
 
-	preview: attr('string'),
-
-	original: computed('src', 'cloudfront', function() {
-        return this.get('cloudfront') + '/' + this.get('src');
-	}),
+	preview: attr('string')
 
 });

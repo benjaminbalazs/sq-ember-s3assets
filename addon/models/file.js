@@ -1,9 +1,9 @@
 import { computed } from '@ember/object';
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import BaseURL from './../mixins/baseurl';
+import config from 'ember-get-config';
 
-export default Model.extend(BaseURL,{
+export default Model.extend({
 
 	filename: attr('string'),
 
@@ -24,8 +24,8 @@ export default Model.extend(BaseURL,{
 
 	//
 
-	original: computed('src', 'cloudfront', function() {
-        return this.get('cloudfront') + '/' + this.get('src');
+	original: computed('src', function() {
+        return config.S3.files.cloudfront + '/' + this.get('src');
 	}),
 
 });
