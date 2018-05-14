@@ -20,12 +20,6 @@ export default Component.extend({
 
 	widthSizes: [160, 320, 480, 640, 960, 1280, 1920, 2560],
 
-	click() {
-		if ( this ) {
-			this.sendAction('select');
-		}
-	},
-
 	didInsertElement() {
 
 		const self = this;
@@ -155,7 +149,7 @@ export default Component.extend({
 
 		let imgix;
 		let src;
-		
+
 		if ( this.get('model.category') === "image" ) {
 
 			imgix = config.S3.images.imgix;
