@@ -13,7 +13,9 @@ export default File.extend({
 
 	thumbnails: attr('number'),
 
-	processed: attr('boolean'),
+	state: attr('string'),
+
+	completed_at: attr('date'),
 
 	preview: attr('string'),
 
