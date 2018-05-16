@@ -11,12 +11,20 @@ export default File.extend({
 
 	duration: attr('number'),
 
-	thumbnails: attr('number'),
-
 	state: attr('string'),
 
 	completed_at: attr('date'),
 
 	preview: attr('string'),
+
+	files: attr('array'),
+
+	trailer: attr('boolean'),
+
+	loop: attr('boolean'),
+
+	autoplay: attr('boolean'),
+
+	showtrailer: attr('boolean'),
 
 });
