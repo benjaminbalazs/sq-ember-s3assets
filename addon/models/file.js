@@ -5,9 +5,9 @@ import config from 'ember-get-config';
 
 export default Model.extend({
 
-	filename: attr('string'),
+	filename: attr('string', { readOnly: true }),
 
-	originalname: attr('string'),
+	originalname: attr('string', { readOnly: true }),
 
 	//
 
