@@ -21,11 +21,9 @@ export default File.extend({
 
 	trailer: attr('boolean'),
 
-	loop: attr('boolean'),
-
-	autoplay: attr('boolean'),
-
 	showtrailer: attr('boolean'),
+
+	playback: attr('string', { defaultValue: "normal" }),
 
 	//
 
