@@ -58,7 +58,7 @@ export default File.extend({
 
 	poster: computed('thumbnails', 'cloudfront', function() {
 
-		const index = Math.round(this.get('thumbnails.length') / 2);
+		let index = Math.floor(this.get('thumbnails.length') / 2);
 
 		return this.get('cloudfront') + "/" + this.get('thumbnails')[index];
 
