@@ -14,11 +14,7 @@ export default Component.extend({
 	attributeBindings: ['src', 'srcset', 'sizes', 'filter', 'mask', 'link', 'alt', 'fade'],
 	classNameBindings: ['loaded'],
 	height: 'auto',
-	fade: false,
-	sizes: "100vw",
 	loaded: false,
-
-	widthSizes: [160, 320, 480, 640, 960, 1280, 1920, 2560],
 
 	didInsertElement() {
 
@@ -107,60 +103,6 @@ export default Component.extend({
 			}
 
 		}
-
-	},
-
-	src: computed('model.src', function() {
-
-		if ( this.get('model.preview') ) {
-			return this.get('model.preview');
-		} else {
-			return this.get('model.original');
-		}
-
-	}),
-
-	srcset: computed('model.sizes', function() {
-
-		if ( this.get('model.sizes') ) {
-
-			let array = [];
-
-			for ( var i=0; i < this.get('model.sizes'); i += 1 ) {
-
-				var size = this.widthSizes[i];
-
-				let item = this.getFilename(size) + " " + size + "w";
-				array.push(item);
-
-			}
-
-			return array.join(", ");
-
-		} else {
-
-			return null;
-
-		}
-
-	}),
-
-	getFilename(width) {
-
-		let imgix;
-		let src;
-
-		if ( this.get('model.category') === "image" ) {
-
-			imgix = config.S3.images.imgix;
-
-		} else {
-
-			imgix = config.S3['stock-images'].imgix;
-
-		}
-
-		return imgix + "/" + this.get('model.src') + "?w=" + width + "&auto=format,compress&fit=max";
 
 	},
 

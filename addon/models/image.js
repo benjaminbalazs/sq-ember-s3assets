@@ -17,4 +17,34 @@ export default File.extend({
         return config.S3.images.cloudfront + '/' + this.get('src');
 	}),
 
+	srcset: computed(function() {
+
+        let widthSizes = [160, 320, 480, 640, 960, 1280, 1920, 2560];
+
+        if ( this.get('sizes') ) {
+
+			let array = [];
+
+			for ( var i=0; i < this.get('sizes'); i += 1 ) {
+
+				var size = widthSizes[i];
+
+				const filename = config.S3.images.imgix + "/" + this.get('src') + "?w=" + size + "&auto=format,compress&fit=max";
+
+				const item = filename + " " + size + "w";
+
+				array.push(item);
+
+			}
+
+			return array.join(", ");
+
+		} else {
+
+			return null;
+
+		}
+
+    }),
+
 });
