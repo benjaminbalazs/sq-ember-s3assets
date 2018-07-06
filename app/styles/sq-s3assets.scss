@@ -1,39 +1,39 @@
-.sq-img[mask] {
+[mask] {
     object-fit: cover;
     transition: all 0.2s ease-in-out;
 }
 
-.sq-img[mask='rectangle'] {
+[mask='rectangle'] {
 }
 
-.sq-img[mask='square'] {
+[mask='square'] {
 }
 
-.sq-img[mask='circle'] {
+[mask='circle'] {
     clip-path: circle(50% at 50% 50%);
 }
 
-.sq-img[mask='triangle'] {
+[mask='triangle'] {
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-.sq-img[mask='rhombus'] {
+[mask='rhombus'] {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
-.sq-img[mask='hexagon'] {
+[mask='hexagon'] {
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
-.sq-img[mask='star'] {
+[mask='star'] {
     clip-path: polygon(50% 0%, 61% 38.5%, 98% 38.5%, 68% 58%, 79% 100%, 50% 70%, 21% 100%, 32% 58%, 2% 38.5%, 39% 38.5%);
 }
 
-.sq-img[fade] {
+[fade] {
     opacity: 0;
     transition: all 0.2s ease-in-out;
 }
 
-.sq-img[fade].show {
+[fade].show {
     opacity: 1;
 }
