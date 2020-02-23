@@ -29,20 +29,24 @@ export default File.extend({
 
 	sources: computed('videos', 'cloudfront', function() {
 
-		const cloudfront = this.get('cloudfront');
+		if ( this.get('videos') ) {
 
-		return this.get('videos').map(function(item) {
+			const cloudfront = this.get('cloudfront');
 
-			return {
-				src: cloudfront + "/" + item.src,
-				type: item.type,
-			}
+			return this.get('videos').map(function(item) {
 
-		}).filter(function(item) {
+				return {
+					src: cloudfront + "/" + item.src,
+					type: item.type,
+				}
 
-			return ( item.src.indexOf('preview') === -1 && item.src.indexOf('M.m3u8') === -1 && item.src.indexOf('k.m3u8') === -1 );
+			}).filter(function(item) {
 
-		});
+				return ( item.src.indexOf('preview') === -1 && item.src.indexOf('M.m3u8') === -1 && item.src.indexOf('k.m3u8') === -1 );
+
+			});
+
+		}
 
 	}),
 
@@ -66,16 +70,20 @@ export default File.extend({
 
 	previewVideo: computed('videos', function() {
 
-		const video = this.get('videos').find(function(item) {
-			if ( item.src.indexOf('preview') !== -1 ) {
-				return true;
-			}
-		});
+		if ( this.get('videos') ) {
 
-		return {
-			src: this.get('cloudfront') + "/" + video.src,
-			type: video.type,
-		};
+			const video = this.get('videos').find(function(item) {
+				if ( item.src.indexOf('preview') !== -1 ) {
+					return true;
+				}
+			});
+
+			return {
+				src: this.get('cloudfront') + "/" + video.src,
+				type: video.type,
+			};
+
+		}
 
 	}),
 
@@ -83,44 +91,52 @@ export default File.extend({
 
 	videos: computed('files', function() {
 
-        return this.get('files').filter(function(item) {
+		if ( this.get('files') ) {
 
-            return ( item.indexOf('/mp4/') !== -1 || item.indexOf('/hls/') !== -1 || item.indexOf('/webm/') !== -1 );
+	        return this.get('files').filter(function(item) {
 
-        }).map(function(item) {
+	            return ( item.indexOf('/mp4/') !== -1 || item.indexOf('/hls/') !== -1 || item.indexOf('/webm/') !== -1 );
 
-			let type;
+	        }).map(function(item) {
 
-			if ( item.indexOf('/mp4/') !== -1 ) {
+				let type;
 
-				type = "video/mp4";
+				if ( item.indexOf('/mp4/') !== -1 ) {
 
-			} else if ( item.indexOf('/webm/') !== -1 ) {
+					type = "video/mp4";
 
-				type = "video/webm";
+				} else if ( item.indexOf('/webm/') !== -1 ) {
 
-			} else if ( item.indexOf('/hls/') !== -1 ) {
+					type = "video/webm";
 
-				type = "application/x-mpegURL";
+				} else if ( item.indexOf('/hls/') !== -1 ) {
 
-			}
+					type = "application/x-mpegURL";
 
-			return {
-				src: item,
-				type: type,
-			}
+				}
 
-		});
+				return {
+					src: item,
+					type: type,
+				}
+
+			});
+
+		}
 
     }),
 
     thumbnails: computed('files', function() {
 
-        return this.get('files').filter(function(item) {
+		if ( this.get('files') ) {
 
-            return ( item.indexOf('/thumbs/') !== -1 );
+			return this.get('files').filter(function(item) {
 
-        });
+	            return ( item.indexOf('/thumbs/') !== -1 );
+
+	        });
+
+		}
 
     }),
 
