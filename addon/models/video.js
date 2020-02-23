@@ -62,10 +62,14 @@ export default File.extend({
 
 	poster: computed('thumbnails', 'cloudfront', function() {
 
-		let index = Math.floor(this.get('thumbnails.length') / 2);
+		if ( this.get('thumbnails') ) {
 
-		return this.get('cloudfront') + "/" + this.get('thumbnails')[index];
+			let index = Math.floor(this.get('thumbnails.length') / 2);
 
+			return this.get('cloudfront') + "/" + this.get('thumbnails')[index];
+
+		}
+		
 	}),
 
 	previewVideo: computed('videos', function() {
